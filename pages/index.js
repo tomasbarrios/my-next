@@ -4,8 +4,17 @@ import styles from '../styles/Home.module.css'
 export default function Home() {
   return (
     <div className={styles.container}>
+      <div className={styles.container}>
+        Hey, time to be alive.
+      </div>
+      <div className={styles.container}>
+        <h1 className={styles.title}>Thoughts on code, language, design \& arts</h1>
+      </div>
+      <div className={styles.container}>
+        Incierto es el camino, de aquellos que solo aventurados por el corazon, cruzan las tierras que nunca pensaron cruzar.
+      </div>
       <Head>
-        <title>Create Next App</title>
+        <title><span class="tribute">Created from a</span> Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
