@@ -1,22 +1,43 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
-import figmaClient from '../lib/figma'
+import figmaClient, { getFigmaNode } from '../lib/figma'
 
+const FigmaDoc = ({ element }) => {
+    console.log({ element })
+    return <>
+        {element.children.map((el) => <FigmaEl element={el}></FigmaEl>)}
+        {<FigmaColors document={element} />}
+    </>
+}
+
+const ColorSample = ({ rgb: { r, g, b, a }, ...rest }) => {
+    const f = (num) => parseFloat(num) * 255
+    console.log({ r, g, b, a })
+    console.log({ res: `rgb(${f(r)}, ${g}, ${b}, ${a})` })
+    return <div style={{ width: 10, height: 10, backgroundColor: `rgb(${f(r)}, ${f(g)}, ${f(b)}, ${a})` }}></div >
+}
+
+const FigmaColors = ({ document }) => {
+    const colors = document.children.filter((el) => el.type === "RECTANGLE")
+    console.log({ colors })
+    return colors.map((color) => <ColorSample rgb={color.fills[0].color}></ColorSample>)
+}
+const FigmaEl = ({ element }) => {
+    console.log({ element })
+    return <>{element.name}</>
+}
 export default function Home({ figma }) {
     console.log("HOME", { figma })
+
     return (
         <div className={styles.container}>
             <div className={styles.container}>
-                Hey, time to be alive.
-      </div>
-            <div className={styles.container}>
-                <h1 className={styles.title}>Thoughts on code, language, design \& arts</h1>
+                {figma.document.children.map((el) => {
+                    return <FigmaDoc element={el}></FigmaDoc>
+                })}
             </div>
-            <div className={styles.container}>
-                Incierto es el camino, de aquellos que solo aventurados por el corazon, cruzan las tierras que nunca pensaron cruzar.
-      </div>
             <Head>
-                <title><span class="tribute">Created from a</span> Create Next App</title>
+                <title><span className="tribute">Created from a</span> Create Next App</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
